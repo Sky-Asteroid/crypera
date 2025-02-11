@@ -1,0 +1,30 @@
+/* Основной контейнер */
+.klineContainer {
+    display: flex;
+    flex-direction: column; /* Размещаем элементы вертикально */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* Контейнер для панелей */
+  .panel-container {
+    display: flex;
+    flex-direction: column; /* Вертикальное выравнивание */
+    justify-content: space-between;
+    align-items: stretch; /* Растягиваем элементы на всю ширину */
+    width: 700px; /* Ширина контейнера для обоих элементов */
+  }
+  
+  /* Стили для панели торгов */
+  .trading-panel {
+    width: 100%; /* Занимает всю ширину контейнера */
+    margin-bottom: 20px; /* Отступ между компонентами */
+  }
+  
+  /* Стили для графика Kline */
+  .klineChart {
+    width: 100%; /* Занимает всю ширину контейнера */
+  }
+  

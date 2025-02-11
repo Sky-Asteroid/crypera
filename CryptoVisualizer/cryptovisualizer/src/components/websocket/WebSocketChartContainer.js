@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { connectToWebSocket } from "../service/websocketService";
-import LineChart from './charts/line-chart';
-import CandlestickChart from './charts/candle-chart';
+import { connectToWebSocket } from "../../service/websocketService";
+import LineChart from '../charts/line-chart/LineChart.js';
+import CandlestickChart from '../charts/candle-chart';
 import moment from 'moment';
 
 const WebSocketChartContainer = () => {

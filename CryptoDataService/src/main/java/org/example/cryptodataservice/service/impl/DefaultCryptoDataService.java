@@ -25,7 +25,7 @@ public class DefaultCryptoDataService implements CryptoDataService {
     private final SimpMessagingTemplate messagingTemplate;
     private final BinanceProperties binanceProperties;
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 2500)
     public void fetchAndSendLiveWithInitialData() {
         try {
             var symbol = binanceProperties.getSymbol();

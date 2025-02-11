@@ -1,0 +1,24 @@
+.timeFrameSelector .options {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .option-button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    padding: 4px 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .option-button:hover {
+    background-color: #444;
+  }
+  
+  .option-button.active {
+    background-color: #007bff;
+  }
+  

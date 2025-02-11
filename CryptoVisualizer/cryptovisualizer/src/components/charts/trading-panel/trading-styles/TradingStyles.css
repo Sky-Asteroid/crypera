@@ -1,0 +1,38 @@
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.dropdown-content {
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 120px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    right: 0;
+    border-radius: 4px;
+    padding: 8px;
+}
+
+.radio-item {
+    display: block;
+    margin: 5px 0;
+    cursor: pointer;
+    color: #333;
+}
+
+.radio-item input {
+    margin-right: 8px;
+    cursor: pointer;
+}
+
+.radio-item:hover {
+    background-color: #f1f1f1;
+}

@@ -1,0 +1,50 @@
+/* Основной контейнер */
+.dropdown-content {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    
+}
+
+/* Стиль для блока выбора методов */
+.method-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Стили для меток */
+.method-selection label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Стили для чекбоксов */
+.method-selection input[type="checkbox"] {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+/* Стили для текста при наведении */
+.method-selection label:hover {
+    color: #007bff;
+}
+
+/* Стили для активных чекбоксов */
+.method-selection input[type="checkbox"]:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/* Добавление отступов и стиля при наведении на саму кнопку */
+.method-selection input[type="checkbox"]:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}

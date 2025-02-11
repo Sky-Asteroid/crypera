@@ -1,0 +1,97 @@
+.tradingPanel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1e1e1e;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    width: 100%;
+  }
+  
+  .left-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .right-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .option-group {
+    margin-bottom: 10px;
+  }
+  
+  .options {
+    display: flex;
+    gap: 6px;
+  }
+  
+  .option-button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 10px;
+    padding: 4px 8px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .option-button:hover {
+    background-color: #444;
+  }
+  
+  .option-button.active {
+    background-color: #007bff;
+  }
+  
+  .dropdown {
+    position: relative;
+  }
+  
+  .dropdown-button {
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 6px;
+    transition: background-color 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+  }
+  
+  .dropdown-button:hover {
+    background-color: #444;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    padding: 8px;
+    border-radius: 4px;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown-item {
+    padding: 6px 12px;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .dropdown-item:hover {
+    background-color: #444;
+  }
+  
