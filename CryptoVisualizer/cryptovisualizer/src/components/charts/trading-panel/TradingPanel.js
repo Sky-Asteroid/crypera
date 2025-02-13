@@ -6,10 +6,17 @@ import levelImg from "../../../image/level.png";
 import TradingLevels from "./trading-levels/TradingLevels";
 import TradingStyles from "./trading-styles/TradingStyles";
 import TimeFrameSelector from "./trading-time-frames/TimeFrameSelector.js";
-import { SYMBOL } from "../../../config";
+import SymbolSelector from "./symbol-selector/SymbolSelector.js";
+import { SYMBOL, INTERVAL } from "../../../config";
 
-const TradingPanel = ({ onLevelsChange, onStyleChange }) => {
-  const [selectedTimeFrame, setSelectedTimeFrame] = useState("1h");
+const TradingPanel = ({
+  onLevelsChange,
+  onStyleChange,
+  onSymbolChange, // Новый пропс для изменения символа
+  onIntervalChange, // Новый пропс для изменения интервала
+}) => {
+  const [selectedTimeFrame, setSelectedTimeFrame] = useState(INTERVAL);
+  const [selectedSymbol, setSelectedSymbol] = useState(SYMBOL);
   const [showMovingDate, setShowMovingDate] = useState(false);
   const [showTechnicIndicators, setShowTechnicIndicators] = useState(false);
   const [showLevels, setShowLevels] = useState(false);
@@ -25,12 +32,30 @@ const TradingPanel = ({ onLevelsChange, onStyleChange }) => {
     }
   };
 
+  const handleTimeFrameChange = (interval) => {
+    setSelectedTimeFrame(interval);
+    if (onIntervalChange) {
+      onIntervalChange(interval); // Передаем новый интервал в родительский компонент
+    }
+  };
+
+  const handleSymbolChange = (symbol) => {
+    setSelectedSymbol(symbol);
+    if (onSymbolChange) {
+      onSymbolChange(symbol); // Передаем новый символ в родительский компонент
+    }
+  };
+
   return (
     <div className="tradingPanel">
       <div className="left-group">
+        {/* Добавляем компонент для выбора символа */}
+        <SymbolSelector selectedSymbol={selectedSymbol} onSymbolChange={handleSymbolChange} />
+
+        {/* TimeFrameSelector с поддержкой изменения интервала */}
         <TimeFrameSelector
           selectedTimeFrame={selectedTimeFrame}
-          onTimeFrameChange={setSelectedTimeFrame}
+          onTimeFrameChange={handleTimeFrameChange}
         />
       </div>
 
@@ -87,7 +112,7 @@ const TradingPanel = ({ onLevelsChange, onStyleChange }) => {
           {showLevels && (
             <TradingLevels
               interval={selectedTimeFrame}
-              symbol={SYMBOL}
+              symbol={selectedSymbol} // Используем выбранный символ
               onLevelsChange={handleLevelsChange}
             />
           )}

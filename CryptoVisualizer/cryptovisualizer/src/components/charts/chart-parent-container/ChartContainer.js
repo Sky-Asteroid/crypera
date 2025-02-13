@@ -8,6 +8,8 @@ import { SYMBOL, INTERVAL } from '../../../config';
 import './ChartContainer.css';
 
 const ChartContainer = () => {
+    const [symbol, setSymbol] = useState(SYMBOL);
+    const [interval, setInterval] = useState(INTERVAL);
     const [candles, setCandles] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -42,16 +44,15 @@ const ChartContainer = () => {
         }
     };
 
-    const fetchInitialData = async () => {
+    const fetchInitialData = async (symbol, interval) => {
         try {
             const response = await fetch(
-                `http://localhost:8080/history/candles?symbol=${SYMBOL}&interval=${INTERVAL}&size=100`
+                `http://localhost:8080/history/candles?symbol=${symbol}&interval=${interval}&size=100`
             );
 
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
             const data = await response.json();
-
             const formattedData = data.map((item) => ({
                 openTime: new Date(item.openTime),
                 open: item.open,
@@ -69,30 +70,55 @@ const ChartContainer = () => {
         }
     };
 
+    const updateParams = async (symbol, interval) => {
+        try {
+            const response = await fetch('http://localhost:8080/update-params', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ symbol, interval }),
+            });
+
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        } catch (error) {
+            console.error('Ошибка при обновлении параметров:', error);
+        }
+    };
+
     useEffect(() => {
-        fetchInitialData();
-    }, []);
+        fetchInitialData(symbol, interval);
+    }, [symbol, interval]);
 
     useEffect(() => {
         const connect = connectToWebSocket(
             'http://localhost:8080/websocket',
             '/topic/live-data',
-            updateCandles
+            updateCandles,
+            { symbol, interval }
         );
 
         return () => {
             connect();
         };
-    }, []);
+    }, [symbol, interval]);
 
     const handleLevelsChange = (data) => {
-        console.log("Полученные уровни:", JSON.stringify(data, null, 2));
         setResistanceLevels(data);
     };
 
     const handleStyleChange = (style) => {
-        console.log("Выбран стиль графика:", style);
         setChartStyle(style);
+    };
+
+    const handleSymbolChange = (newSymbol) => {
+        setSymbol(newSymbol);
+        updateParams(newSymbol, interval);
+    };
+
+    const handleIntervalChange = (newInterval) => {
+        setInterval(newInterval);
+        updateParams(symbol, newInterval);
     };
 
     if (isLoading) return <div>Загрузка данных...</div>;
@@ -102,30 +128,33 @@ const ChartContainer = () => {
         <div className="klineContainer">
             <div className="panel-container">
                 <div className="trading-panel">
-                    {/* Передаем handleStyleChange в TradingPanel */}
                     <TradingPanel
                         onLevelsChange={handleLevelsChange}
                         onStyleChange={handleStyleChange}
+                        onSymbolChange={handleSymbolChange}
+                        onIntervalChange={handleIntervalChange}
                     />
                 </div>
                 <div className="klineChart">
-                    {/* Отображаем компоненту в зависимости от выбранного стиля */}
                     {chartStyle === 'Candlestick' && (
                         <KlineChart
                             data={{ datasets: [{ data: candles }] }}
                             resistanceLevels={resistanceLevels}
+                            intervalPad={interval}
                         />
                     )}
                     {chartStyle === 'Line' && (
                         <LineChart
                             data={{ datasets: [{ data: candles }] }}
                             resistanceLevels={resistanceLevels}
+                            intervalPad={interval}
                         />
                     )}
                     {chartStyle === 'Bar' && (
                         <BarChart
                             data={{ datasets: [{ data: candles }] }}
                             resistanceLevels={resistanceLevels}
+                            intervalPad={interval}
                         />
                     )}
                 </div>

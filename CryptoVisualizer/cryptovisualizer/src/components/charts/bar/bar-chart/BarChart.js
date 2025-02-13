@@ -23,7 +23,7 @@ ChartJS.register(
     annotationPlugin
 );
 
-const BarChart = ({ data, resistanceLevels }) => {
+const BarChart = ({ data, resistanceLevels, intervalPad }) => {
     const chartRef = useRef(null);
 
     useEffect(() => {
@@ -140,6 +140,23 @@ const BarChart = ({ data, resistanceLevels }) => {
         });
     }
 
+    const intervalOffset = {
+        "1m": 1000 * 60 * 5,
+        "5m": 1000 * 60 * 25,
+        "15m": 1000 * 60 * 75,
+        "1h": 1000 * 60 * 60 * 5,
+        "4h": 1000 * 60 * 60 * 20,
+        "1d": 1000 * 60 * 60 * 24 * 5,
+      };
+    
+      // Установите значения min и max динамически
+      const xAxisMin = new Date(
+        data.datasets[0].data[Math.max(data.datasets[0].data.length - 25, 0)].openTime
+      ).getTime();
+      const xAxisMax =
+        new Date(data.datasets[0].data[data.datasets[0].data.length - 1].openTime).getTime() +
+        (intervalOffset[intervalPad] || intervalOffset["1m"]);
+
 
     const options = {
         responsive: true,
@@ -189,8 +206,8 @@ const BarChart = ({ data, resistanceLevels }) => {
                     color: '#ffffff',
                 },
                 offset: true,
-                min: new Date(data.datasets[0].data[data.datasets[0].data.length - 25].openTime).getTime(),
-                max: new Date(data.datasets[0].data[data.datasets[0].data.length - 1].openTime).getTime() + (1000 * 60 * 5),
+                min: xAxisMin,
+                max: xAxisMax,
                 categoryPercentage: 1,
                 barPercentage: 1,
             },

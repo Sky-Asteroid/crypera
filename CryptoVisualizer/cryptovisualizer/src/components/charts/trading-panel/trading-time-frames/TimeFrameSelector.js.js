@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./TimeFrameSelector.css";
 
 const TimeFrameSelector = ({ selectedTimeFrame, onTimeFrameChange }) => {
-  const timeFrameOptions = ["5m", "15m", "1h", "4h", "1d"];
+  const timeFrameOptions = ["1m", "5m", "15m", "1h", "4h", "1d"];
 
   return (
     <div className="timeFrameSelector">
