@@ -29,6 +29,18 @@ public class TradingDataUtils {
                 .collect(Collectors.toList());
     }
 
+    public static Long getIntervalNumber(String interval){
+        return switch (interval) {
+            case "1m" -> 60000L;
+            case "5m" -> 300000L;
+            case "15m" -> 900000L;
+            case "1h" -> 3600000L;
+            case "4h" -> 14400000L;
+            case "1d" -> 86400000L;
+            default -> 60000L;
+        };
+    }
+
     private static Double convertToDouble(Object obj) {
         if (obj instanceof String) {
             try {

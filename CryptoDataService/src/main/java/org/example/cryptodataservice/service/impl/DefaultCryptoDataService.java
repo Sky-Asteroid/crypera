@@ -2,7 +2,7 @@ package org.example.cryptodataservice.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.cryptodataservice.client.BinanceClient;
-import org.example.cryptodataservice.config.BinanceProperties;
+import org.example.cryptodataservice.config.BinaceParametrs;
 import org.example.cryptodataservice.dto.TradingData;
 import org.example.cryptodataservice.service.CryptoDataService;
 import org.example.cryptodataservice.utils.TimeUtils;
@@ -23,7 +23,7 @@ public class DefaultCryptoDataService implements CryptoDataService {
 
     private final BinanceClient binanceClient;
     private final SimpMessagingTemplate messagingTemplate;
-    private final BinanceProperties binanceProperties;
+    private final BinaceParametrs binanceProperties;
 
     @Scheduled(fixedRate = 2500)
     public void fetchAndSendLiveWithInitialData() {
@@ -31,11 +31,11 @@ public class DefaultCryptoDataService implements CryptoDataService {
             var symbol = binanceProperties.getSymbol();
             var interval = binanceProperties.getInterval();
             var endTime = Instant.now().toEpochMilli();
-            var startTime = endTime - binanceProperties.getTimeframe();
+            var startTime = endTime - TradingDataUtils.getIntervalNumber(interval);
 
             var rawData = binanceClient.getTradingData(symbol, interval, startTime, endTime);
 
-            log.info("rawData: {}", rawData);
+            log.info("TF: {}, symbol: {} \nrawData: {}", interval, symbol, rawData);
             var tradingDataList = TradingDataUtils.convertToTradingDataList(rawData);
             messagingTemplate.convertAndSend("/topic/live-data", tradingDataList);
             log.info("Live history data sent: {}\n\n\n", tradingDataList);
